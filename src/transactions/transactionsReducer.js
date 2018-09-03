@@ -40,7 +40,7 @@ const transactionsReducer = (state = initialState, action) => {
       ...state,
       [action.txHash]: {
         ...state[action.txHash],
-        status: 'error',
+        status: 'canceled',
         error: action.error
       }
     }

@@ -154,7 +154,9 @@ function createTxChannel ({ txObject, stackId, sendArgs = {}, contractName }) {
         emit(END)
       })
       .on('error', error => {
-        emit({ type: 'TX_ERROR', error: error, txHash: persistTxHash })
+        const customHash = Math.round((new Date()).getTime() / 1000)
+        emit({ type: 'TX_BROADCASTED', txHash: customHash, stackId: stackId })
+        emit({ type: 'TX_ERROR', error: error, txHash: customHash })
         emit(END)
       })
 

@@ -6762,7 +6762,9 @@ function createTxChannel(_ref6) {
       emit({ type: 'TX_SUCCESSFUL', receipt: receipt, txHash: persistTxHash });
       emit(_reduxSaga.END);
     }).on('error', function (error) {
-      emit({ type: 'TX_ERROR', error: error, txHash: persistTxHash });
+      const customHash = Math.round((new Date()).getTime() / 1000);
+      emit({ type: 'TX_BROADCASTED', txHash: customHash, stackId: stackId });
+      emit({ type: 'TX_ERROR', error: error, txHash: customHash });
       emit(_reduxSaga.END);
     });
 
@@ -7879,7 +7881,7 @@ var transactionsReducer = function transactionsReducer() {
 
   if (action.type === 'TX_ERROR') {
     return (0, _extends7.default)({}, state, (0, _defineProperty3.default)({}, action.txHash, (0, _extends7.default)({}, state[action.txHash], {
-      status: 'error',
+      status: 'canceled',
       error: action.error
     })));
   }
